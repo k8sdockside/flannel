@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Flannel</title>
+        <link rel="stylesheet" href="flannel.css" />
+        <!-- The bridge to the app. Served by k8sdockside itself, always at this path. -->
+        <script src="/plugin-ui/_sdk/k8sdockside.js"></script>
+    </head>
+    <body class="page page-overview">
+        <p id="error" class="banner error" hidden></p>
+
+        <section id="verdict">
+            <div class="loading"><span class="pulse"></span><span>Looking for Flannel…</span></div>
+        </section>
+
+        <section id="shape" hidden></section>
+        <section id="map" hidden></section>
+
+        <div id="columns" class="columns" hidden>
+            <div id="attention"></div>
+            <div id="components"></div>
+        </div>
+
+        <section id="events" hidden></section>
+
+        <!-- Classic scripts, not type="module": a sandboxed frame has an opaque
+             origin, so a module would be a cross-origin load. -->
+        <script src="model.js"></script>
+        <script src="kit.js"></script>
+        <script src="overview.js"></script>
+    </body>
+</html>

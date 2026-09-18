@@ -1,0 +1,23 @@
+name: check
+
+# Loads the plugin the way K8s Dockside does and fails on anything the app
+# would refuse: the JSON, every field, the kinds, the queries, the icons, the
+# links, the versions, and every page the manifest opens.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  plugin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: stable
+      - name: Check the plugin
+        run: go run github.com/rogerwesterbo/k8sdockside/cmd/plugincheck@main .

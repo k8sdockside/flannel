@@ -1,0 +1,60 @@
+{
+    "$schema": "https://raw.githubusercontent.com/rogerwesterbo/k8sdockside/main/docs/plugin.schema.json",
+    "id": "flannel",
+    "name": "Flannel",
+    "version": "1.0.0",
+    "minAppVersion": "0.0.27",
+    "tagline": "one subnet per node, joined by an overlay",
+    "icon": "route",
+    "docs": "https://github.com/flannel-io/flannel/blob/master/Documentation/configuration.md",
+    "author": "Roger Westerbo",
+    "links": [
+        { "label": "GitHub", "url": "https://github.com/flannel-io/flannel" },
+        { "label": "Configuration", "url": "https://github.com/flannel-io/flannel/blob/master/Documentation/configuration.md" },
+        { "label": "Backends", "url": "https://github.com/flannel-io/flannel/blob/master/Documentation/backends.md" },
+        { "label": "Troubleshooting", "url": "https://github.com/flannel-io/flannel/blob/master/Documentation/troubleshooting.md" },
+        { "label": "Plugin source", "url": "https://github.com/rogerwesterbo/k8sdockside-flannel" }
+    ],
+    "description": "Flannel cuts one subnet out of the cluster network for each node and joins them into a flat pod network — usually over VXLAN, sometimes by plain routing (host-gw) or WireGuard. It has no custom resources and no controller of its own: the lease is the node's podCIDR, and everything flanneld knows about a peer is written on that node as annotations.\n\nThat is what this plugin reads. Start with the Subnet map: the whole cluster network drawn to scale, each node's slice sized and placed where it actually falls, filled by how many pods sit in it, with the node's VXLAN endpoint and VTEP MAC underneath. Nodes that flanneld has not leased yet, subnets that fall outside the configured network, and a backend that disagrees with what the nodes are annotated with are called out rather than left for you to spot.\n\nThe overview reads net-conf.json — network, backend, port, MTU, nftables or iptables — checks it against every node, and reports the daemonset node by node. Nodes and Pods each get a Flannel panel: which slice the node holds and how it reaches its peers, and for a pod, which node subnet its address came from.\n\nIt reads Nodes, Pods, the kube-flannel DaemonSet and its ConfigMap, and Events. It changes nothing.",
+    "requires": [
+        { "kind": "daemonsets", "label": "Flannel daemonset" },
+        { "kind": "nodes", "label": "Nodes and their subnet leases" },
+        { "kind": "configmaps", "label": "Flannel configuration" }
+    ],
+    "ui": {
+        "kinds": ["nodes", "pods", "daemonsets", "configmaps", "events"],
+        "write": false
+    },
+    "overview": { "entry": "overview.html" },
+    "views": [
+        { "id": "subnets", "label": "Subnet map", "icon": "layers", "type": "custom", "entry": "index.html" },
+        { "id": "peers", "label": "Backend & peers", "icon": "share", "type": "custom", "entry": "peers.html" },
+        {
+            "id": "flannel-pods",
+            "label": "Flannel's own pods",
+            "icon": "server",
+            "kind": "pods",
+            "selector": "k8s-app=flannel"
+        },
+        { "id": "nodes", "label": "Nodes", "icon": "display", "kind": "nodes" }
+    ],
+    "cards": [
+        {
+            "label": "Flannel's own pods",
+            "kind": "pods",
+            "selector": "k8s-app=flannel",
+            "groupBy": "status.phase",
+            "tones": { "Running": "ok", "Pending": "warn", "Failed": "error", "Unknown": "warn" }
+        },
+        {
+            "label": "Nodes",
+            "kind": "nodes",
+            "groupBy": "status.conditions[Ready]",
+            "tones": { "True": "ok", "False": "error", "Unknown": "warn" }
+        }
+    ],
+    "sections": [
+        { "id": "node", "label": "Flannel", "kind": "nodes", "entry": "node.html", "height": 260 },
+        { "id": "pod", "label": "Flannel", "kind": "pods", "entry": "pod.html", "height": 190 }
+    ]
+}

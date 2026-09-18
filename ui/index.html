@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Subnet map</title>
+        <link rel="stylesheet" href="flannel.css" />
+        <script src="/plugin-ui/_sdk/k8sdockside.js"></script>
+    </head>
+    <body class="page page-subnets">
+        <p id="error" class="banner error" hidden></p>
+
+        <section id="intro">
+            <div class="loading"><span class="pulse"></span><span>Reading the leases…</span></div>
+        </section>
+
+        <section id="maps" hidden></section>
+        <section id="table" hidden></section>
+
+        <script src="model.js"></script>
+        <script src="kit.js"></script>
+        <script src="subnets.js"></script>
+    </body>
+</html>

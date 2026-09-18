@@ -1,0 +1,9 @@
+# Editors and operating systems
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Nothing here is built; anything a tool leaves behind stays out.
+node_modules/
