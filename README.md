@@ -1,6 +1,6 @@
 # Flannel for K8s Dockside
 
-A plugin for the [K8s Dockside](https://github.com/rogerwesterbo/k8sdockside)
+A plugin for the [K8s Dockside](https://github.com/k8sdockside/k8sdockside)
 desktop app that shows [Flannel](https://github.com/flannel-io/flannel) as what
 it is: one subnet per node, joined into a flat pod network. Plain HTML and
 script, no build step. Needs **K8s Dockside 0.0.27 or newer**.
@@ -55,7 +55,7 @@ Rather than leaving them to be spotted:
 **Settings → Plugins → From a repository** with:
 
 ```
-https://github.com/rogerwesterbo/k8sdockside-flannel.git
+https://github.com/k8sdockside/flannel.git
 ```
 
 ## What it reads, and what it changes
@@ -80,7 +80,7 @@ the pages show is read from the API server instead.
 
 ```sh
 # what CI runs: loads the plugin exactly as the app does
-go run github.com/rogerwesterbo/k8sdockside/cmd/plugincheck@main .
+go run github.com/k8sdockside/k8sdockside/cmd/plugincheck@main .
 ```
 
 The pages are plain classic scripts — no build, no bundler, nothing generated.

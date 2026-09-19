@@ -20,4 +20,4 @@ jobs:
         with:
           go-version: stable
       - name: Check the plugin
-        run: go run github.com/rogerwesterbo/k8sdockside/cmd/plugincheck@main .
+        run: go run github.com/k8sdockside/k8sdockside/cmd/plugincheck@main .
